@@ -26,6 +26,10 @@ sudo apt-get install nodejs zip
 npm install -g transxchange2gtfs
 ```
 
+## Data
+
+Most people will be interested in download the Transport for London (TfL) data. The transxchange data is called "Journey Planner Timetables" on the (https://tfl.gov.uk/info-for/open-data-users/our-open-data?intcmp=3671)[TfL open data page]. https://tfl.gov.uk/cdn/static/cms/documents/journey-planner-timetables.zip is the direct download link if you are signed into their developer portal.
+
 ## Usage
 
 It can be run by specifying the input and output files as CLI arguments:
