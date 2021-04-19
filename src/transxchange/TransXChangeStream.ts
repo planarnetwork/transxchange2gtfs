@@ -50,17 +50,17 @@ export class TransXChangeStream extends Transform {
 
     const result: TransXChange = {
       StopPoints: stops,
-      JourneySections: tx.JourneyPatternSections[0].JourneyPatternSection.reduce(
+      JourneySections: tx.JourneyPatternSections?.[0]?.JourneyPatternSection.reduce(
         this.getJourneySections,
         {}
       ),
-      Operators: (tx.Operators[0].Operator || [])
-        .concat(tx.Operators[0].LicensedOperator || [])
+      Operators: (tx.Operators?.[0]?.Operator || [])
+        .concat(tx.Operators?.[0]?.LicensedOperator || [])
         .reduce(this.getOperators, {}),
       Services: services,
-      VehicleJourneys: tx.VehicleJourneys[0].VehicleJourney.map((v: any) =>
-        this.getVehicleJourney(v, patternIndex, services)
-      ),
+      VehicleJourneys: (
+        tx.VehicleJourneys?.[0]?.VehicleJourney ?? []
+      ).map((v: any) => this.getVehicleJourney(v, patternIndex, services)),
     };
 
     callback(undefined, result);
@@ -68,8 +68,8 @@ export class TransXChangeStream extends Transform {
 
   private getStopFromAnnotatedStopPointRef(stop: any): StopPoint {
     return {
-      StopPointRef: stop.StopPointRef[0],
-      CommonName: stop.CommonName[0],
+      StopPointRef: stop.StopPointRef?.[0] ?? "",
+      CommonName: stop.CommonName?.[0] ?? "",
       LocalityName: stop.LocalityName?.[0] ? stop.LocalityName[0] : "",
       LocalityQualifier: stop.LocalityQualifier?.[0]
         ? stop.LocalityQualifier[0]
@@ -89,8 +89,8 @@ export class TransXChangeStream extends Transform {
 
   private getStopFromStopPoint(stop: any): StopPoint {
     return {
-      StopPointRef: stop.AtcoCode[0],
-      CommonName: stop.Descriptor[0].CommonName[0],
+      StopPointRef: stop.AtcoCode?.[0] ?? "",
+      CommonName: stop.Descriptor?.[0]?.CommonName?.[0],
       LocalityName: "",
       LocalityQualifier: "",
       Location: {
@@ -113,15 +113,15 @@ export class TransXChangeStream extends Transform {
 
   private getLink(l: any): TimingLink {
     return {
-      From: this.getJourneyStop(l.From[0]),
-      To: this.getJourneyStop(l.To[0]),
-      RunTime: Duration.parse(l.RunTime[0]),
+      From: this.getJourneyStop(l.From?.[0] ?? ""),
+      To: this.getJourneyStop(l.To?.[0] ?? ""),
+      RunTime: Duration.parse(l.RunTime?.[0] ?? ""),
     };
   }
 
   private getJourneyStop(stop: any): JourneyStop {
     return {
-      Activity: stop.Activity
+      Activity: stop.Activity?.[0]
         ? stop.Activity[0]
         : StopActivity.PickUpAndSetDown,
       StopPointRef: stop.StopPointRef?.[0] ?? "",
@@ -132,7 +132,7 @@ export class TransXChangeStream extends Transform {
 
   private getOperators(index: Operators, operator: any): Operators {
     index[operator.$.id] = {
-      OperatorCode: operator.OperatorCode
+      OperatorCode: operator.OperatorCode?.[0]
         ? operator.OperatorCode[0]
         : operator.NationalOperatorCode[0],
       OperatorShortName: operator.OperatorShortName[0],
