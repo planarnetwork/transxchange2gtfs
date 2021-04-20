@@ -104,7 +104,7 @@ export class TransXChangeStream extends Transform {
     index[operator.$.id] = {
       OperatorCode: operator?.OperatorCode?.[0] ? operator.OperatorCode[0] : operator?.NationalOperatorCode?.[0] ?? "",
       OperatorShortName: operator?.OperatorShortName?.[0] ?? "",
-      OperatorNameOnLicence: operator?.OperatorNameOnLicence?.[0] ? (operator.OperatorNameOnLicence[0]?._ ?? operator.OperatorNameOnLicence[0]) : "",
+      OperatorNameOnLicence: operator?.OperatorNameOnLicence?.[0] && (operator.OperatorNameOnLicence[0]?._ ?? operator.OperatorNameOnLicence[0] ?? ""),
     };
 
     return index;
