@@ -15,6 +15,7 @@ import { BankHolidays, TransXChangeJourneyStream } from "./transxchange/TransXCh
 import { CalendarDatesStream } from "./gtfs/CalendarDatesStream";
 import { TripsStream } from "./gtfs/TripsStream";
 import { StopTimesStream } from "./gtfs/StopTimesStream";
+import { ShapesStream } from "./gtfs/ShapesStream";
 import * as fs from "fs";
 import { TransfersStream } from "./gtfs/TransfersStream";
 import { GetStopData } from "./converter/GetStopData";
@@ -51,7 +52,8 @@ export class Container {
         "agency.txt": transxchange.pipe(new AgencyStream()),
         "routes.txt": transxchange.pipe(new RoutesStream()),
         "transfers.txt": transxchange.pipe(new TransfersStream(naptanIndex, locationIndex)),
-        "stops.txt": transxchange.pipe(new StopsStream(naptanIndex))
+        "stops.txt": transxchange.pipe(new StopsStream(naptanIndex)),
+        "shapes.txt": journeyStream.pipe(new ShapesStream())
       }
     );
   }
