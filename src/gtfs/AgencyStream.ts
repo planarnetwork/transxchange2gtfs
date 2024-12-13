@@ -12,14 +12,13 @@ export class AgencyStream extends GTFSFileStream<TransXChange> {
   private readonly agencyLang = process.env.AGENCY_LANG || "en";
 
   protected transform(data: TransXChange): void {
-    for (const operatorId of Object.keys(data.Operators)) {
-      if (!this.agenciesSeen[operatorId]) {
-        const operator = data.Operators[operatorId];
+    for (const operator of Object.values(data.Operators)) {
+      if (!this.agenciesSeen[operator.NationalOperatorCode]) {
         const agencyName = operator.TradingName || operator.OperatorNameOnLicence || operator.OperatorShortName;
 
-        this.pushLine(operatorId, agencyName, this.agencyUrl, this.agencyTimezone, this.agencyLang, "", "");
+        this.pushLine(operator.NationalOperatorCode, agencyName, this.agencyUrl, this.agencyTimezone, this.agencyLang, "", "");
 
-        this.agenciesSeen[operatorId] = true;
+        this.agenciesSeen[operator.NationalOperatorCode] = true;
       }
     }
   }

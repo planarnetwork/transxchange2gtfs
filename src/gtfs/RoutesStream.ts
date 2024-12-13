@@ -1,5 +1,5 @@
 import {GTFSFileStream} from "./GTFSFileStream";
-import {Mode, Service, TransXChange} from "../transxchange/TransXChange";
+import {Mode, Operators, Service, TransXChange} from "../transxchange/TransXChange";
 
 /**
  * Extract the routes from the TransXChange objects
@@ -20,29 +20,33 @@ export class RoutesStream extends GTFSFileStream<TransXChange> {
 
   protected transform(data: TransXChange): void {
     for (const service of Object.values(data.Services)) {
-      this.addRoute(service);
+      this.addRoute(service, data.Operators);
     }
   }
 
-  private addRoute(service: Service): void {
+  private addRoute(service: Service, operators: Operators) {
     const routeId = service.ServiceCode;
 
-    if (!this.routesSeen[routeId]) {
-      this.routesSeen[routeId] = true;
+    // Multiple routes can be defined in one service (usually related one)
+    for (const lineId in service.Lines) {
+      const line = service.Lines[lineId];
 
-      const shortDescription = Object.values(service.Lines)[0];
+      const id = routeId + '|' + lineId;
+      if (!this.routesSeen[id]) {
+        this.routesSeen[id] = true;
 
-      this.pushLine(
-        routeId,
-        service.RegisteredOperatorRef,
-        shortDescription,
-        service.Description,
-        this.routeType[service.Mode],
-        "",
-        "",
-        "",
-        service.Description
-      );
+        this.pushLine(
+          routeId + '|' + lineId,
+          operators[service.RegisteredOperatorRef]?.NationalOperatorCode ?? service.RegisteredOperatorRef,
+          line.LineName,
+          line.Description || service.Description,
+          this.routeType[service.Mode],
+          "",
+          "",
+          "",
+          service.Description
+        );
+      }
     }
   }
 
