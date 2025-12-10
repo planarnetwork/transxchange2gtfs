@@ -32,7 +32,7 @@ export class StopsStream extends GTFSFileStream<TransXChange> {
     return [
       atcoCode,
       naptanCode,
-      name + specificLocation + specificStreet + ", " + city,
+      name /*+ specificLocation + specificStreet + ", " + city*/,
       name,
       lat,
       lng,
