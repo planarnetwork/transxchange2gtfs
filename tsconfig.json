@@ -2,13 +2,14 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "module": "commonjs",
-    "target": "es2017",
+    "target": "es2022",
     "sourceMap": false,
     "experimentalDecorators": true,
     "strict": true,
     "declaration": true,
+    "skipLibCheck": true,
     "lib": [
-      "es2018"
+      "es2022"
     ]
   },
   "exclude": [
@@ -16,4 +17,3 @@
     "dist/"
   ]
 }
-
