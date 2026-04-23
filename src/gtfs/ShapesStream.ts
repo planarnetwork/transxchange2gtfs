@@ -1,25 +1,23 @@
 import {GTFSFileStream} from "./GTFSFileStream";
 import {TransXChangeJourney} from "../transxchange/TransXChangeJourneyStream";
-import {createHash} from 'crypto';
+import {createHash} from "crypto";
 import {Location, RouteLink} from "../transxchange/TransXChange";
 
 // https://stackoverflow.com/questions/18883601/function-to-calculate-distance-between-two-coordinates
 function getDistanceFromLatLonInM(lat1: number, lon1: number, lat2: number, lon2: number): number {
-  var R = 6371000; // Radius of the earth in km
-  var dLat = deg2rad(lat2-lat1);  // deg2rad below
-  var dLon = deg2rad(lon2-lon1); 
-  var a = 
-    Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-    Math.sin(dLon/2) * Math.sin(dLon/2)
-    ; 
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  var d = R * c; // Distance in km
-  return d;
+  const R = 6371000; // Radius of the earth in metres
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
 
 function deg2rad(deg: number): number {
-  return deg * (Math.PI/180)
+  return deg * (Math.PI / 180);
 }
 
 function routeLinkDistance(routeLink: RouteLink): number {
@@ -44,7 +42,9 @@ export class ShapesStream extends GTFSFileStream<TransXChangeJourney> {
 
   protected transform(journey: TransXChangeJourney): void {
     let sequence = 0;
-    const shapeId = createHash('md5').update(JSON.stringify({ routeId: journey.route, routeLinkSeq: journey.routeLinkIds })).digest("hex");
+    const shapeId = createHash("md5")
+      .update(JSON.stringify({ routeId: journey.route, routeLinkSeq: journey.routeLinkIds }))
+      .digest("hex");
 
     if (this.existingShapes.has(shapeId)) {
       return;
@@ -55,20 +55,25 @@ export class ShapesStream extends GTFSFileStream<TransXChangeJourney> {
     let distanceSoFarM = 0;
 
     for (const link of journey.routeLinks) {
-      // In the TXC file, the distance is provided only for every route link and not in each point within it
-      // For the GTFS file we need a distance for every point so we calculate this from the lat/long values
-      // However this is slightly inaccurate so we scale everything so the overall distance matches
-      const scaleFactor = link.Distance / routeLinkDistance(link);
+      // The TXC file only gives a distance per route link, not per point within it, but GTFS wants a
+      // distance on each shape point. We approximate per-point distances via Haversine and scale them
+      // so the per-link total matches the TXC figure. Fall back to a 1x scale when the measured
+      // distance is zero so we don't divide by zero and emit NaN.
+      const measured = routeLinkDistance(link);
+      const scaleFactor = measured > 0 ? link.Distance / measured : 1;
 
       let linkDistance = 0;
       for (const location of link.Locations) {
         if (
           lastLocAdded !== null &&
           lastLocAdded.Latitude === location.Latitude &&
-          lastLocAdded.Longitude === location.Longitude) {
+          lastLocAdded.Longitude === location.Longitude
+        ) {
           continue;
         }
-        linkDistance += lastLocAdded ? getDistanceFromLatLonInM(lastLocAdded.Latitude, lastLocAdded.Longitude, location.Latitude, location.Longitude) : 0;
+        linkDistance += lastLocAdded
+          ? getDistanceFromLatLonInM(lastLocAdded.Latitude, lastLocAdded.Longitude, location.Latitude, location.Longitude)
+          : 0;
 
         this.pushLine(
           shapeId,
@@ -85,4 +90,3 @@ export class ShapesStream extends GTFSFileStream<TransXChangeJourney> {
   }
 
 }
-
