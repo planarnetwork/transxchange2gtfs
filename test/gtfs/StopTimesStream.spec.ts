@@ -1,7 +1,6 @@
 import {awaitStream, splitCSV} from "../util";
 import {StopTimesStream} from "../../src/gtfs/StopTimesStream";
 
-// tslint:disable
 
 describe("StopTimesStream", () => {
 

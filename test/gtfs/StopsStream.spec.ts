@@ -1,7 +1,6 @@
 import {StopsStream} from "../../src/gtfs/StopsStream";
 import {awaitStream, splitCSV} from "../util";
 
-// tslint:disable
 
 describe("StopsStream", () => {
   const naptan = {

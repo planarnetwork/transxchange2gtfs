@@ -1,7 +1,6 @@
 import {awaitStream, splitCSV} from "../util";
 import {AgencyStream} from "../../src/gtfs/AgencyStream";
 
-// tslint:disable
 
 describe("AgencyStream", () => {
 

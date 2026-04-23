@@ -3,7 +3,6 @@ import {LocalDate} from "@js-joda/core";
 import {CalendarStream} from "../../src/gtfs/CalendarStream";
 import {CalendarDatesStream} from "../../src/gtfs/CalendarDatesStream";
 
-// tslint:disable
 
 describe("CalendarDatesStream", () => {
 

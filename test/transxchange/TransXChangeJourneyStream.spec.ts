@@ -7,7 +7,6 @@ import {
   TransXChangeJourneyStream
 } from "../../src/transxchange/TransXChangeJourneyStream";
 
-// tslint:disable
 
 describe("TransXChangeJourneyStream", () => {
   const transxchange = {
