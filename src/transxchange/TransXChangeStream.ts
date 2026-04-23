@@ -22,7 +22,7 @@ import {
 } from "./TransXChange";
 import {Transform, TransformCallback} from "stream";
 import autobind from "autobind-decorator";
-import {Duration, LocalDate, LocalTime} from "js-joda";
+import {Duration, LocalDate, LocalTime} from "@js-joda/core";
 
 /**
  * Transforms JSON objects into a TransXChange objects
@@ -42,7 +42,8 @@ export class TransXChangeStream extends Transform {
 
     if (!tx?.VehicleJourneys?.[0].VehicleJourney) {
       console.warn("Skipping invalid journey");
-      return callback();
+      callback();
+      return;
     }
 
     let result: TransXChange | undefined;
@@ -220,7 +221,7 @@ export class TransXChangeStream extends Transform {
   private getDateRange(dates: any): DateRange {
     return {
       StartDate: LocalDate.parse(dates.StartDate[0]),
-      EndDate: dates.EndDate && dates.EndDate[0] ? LocalDate.parse(dates.EndDate[0]) : LocalDate.parse("2099-12-31"),
+      EndDate: dates.EndDate?.[0] ? LocalDate.parse(dates.EndDate[0]) : LocalDate.parse("2099-12-31"),
     };
   }
 
@@ -268,7 +269,7 @@ export class TransXChangeStream extends Transform {
 
       if (profile.BankHolidayOperation[0].DaysOfNonOperation[0].OtherPublicHoliday) {
         const nonOperationDates = profile.BankHolidayOperation[0].DaysOfNonOperation[0].OtherPublicHoliday
-          .filter((d: any) => d.Date && d.Date[0])
+          .filter((d: any) => d.Date?.[0])
           .map((d: any) => this.getHolidayDate(d.Date[0]));
         result.SpecialDaysOperation.DaysOfNonOperation.push(...nonOperationDates);
       }

@@ -14,7 +14,7 @@ import {
 } from "./TransXChange";
 import {Transform, TransformCallback} from "stream";
 import autobind from "autobind-decorator";
-import {LocalDate, LocalTime, Duration, DateTimeFormatter} from "js-joda";
+import {LocalDate, LocalTime, Duration, DateTimeFormatter} from "@js-joda/core";
 import {ATCOCode} from "../reference/NaPTAN";
 
 /**
@@ -127,8 +127,8 @@ export class TransXChangeJourneyStream extends Transform {
 
     let startDate = service.OperatingPeriod.StartDate;
     let endDate = service.OperatingPeriod.EndDate;
-    let excludes = [];
-    let includes = [];
+    const excludes = [];
+    const includes = [];
 
     for (const dates of operatingProfile.SpecialDaysOperation.DaysOfNonOperation) {
       // if the start date of the non-operation is on or before the start of the service date, change the calendar start date
@@ -148,11 +148,11 @@ export class TransXChangeJourneyStream extends Transform {
     }
 
     for (const holiday of operatingProfile.BankHolidayOperation.DaysOfNonOperation) {
-      excludes.push(...this.getHoliday(holiday, startDate));
+      excludes.push(...this.getHoliday(holiday, startDate, endDate));
     }
 
     for (const holiday of operatingProfile.BankHolidayOperation.DaysOfOperation) {
-      includes.push(...this.getHoliday(holiday, startDate));
+      includes.push(...this.getHoliday(holiday, startDate, endDate));
     }
 
     const hash = this.getCalendarHash(days, startDate, endDate, includes, excludes);
@@ -184,8 +184,8 @@ export class TransXChangeJourneyStream extends Transform {
     }
   }
 
-  private getHoliday(holiday: Holiday, startDate: LocalDate): LocalDate[] {
-    return (this.holidays[holiday] || []).filter(date => date.isAfter(startDate));
+  private getHoliday(holiday: Holiday, startDate: LocalDate, endDate: LocalDate): LocalDate[] {
+    return (this.holidays[holiday] || []).filter(date => !date.isBefore(startDate) && !date.isAfter(endDate));
   }
 
   private getCalendarHash(days: DaysOfWeek,
