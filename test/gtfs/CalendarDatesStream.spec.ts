@@ -1,4 +1,3 @@
-import * as chai from "chai";
 import {awaitStream, splitCSV} from "../util";
 import {LocalDate} from "js-joda";
 import {CalendarStream} from "../../src/gtfs/CalendarStream";
@@ -28,12 +27,12 @@ describe("CalendarDatesStream", () => {
       const exclude = splitCSV(rows[1]);
       const include = splitCSV(rows[2]);
 
-      chai.expect(exclude[0]).to.equal("1");
-      chai.expect(exclude[1]).to.equal("20181225");
-      chai.expect(exclude[2]).to.equal("2");
-      chai.expect(include[0]).to.equal("1");
-      chai.expect(include[1]).to.equal("20180601");
-      chai.expect(include[2]).to.equal("1");
+      expect(exclude[0]).to.equal("1");
+      expect(exclude[1]).to.equal("20181225");
+      expect(exclude[2]).to.equal("2");
+      expect(include[0]).to.equal("1");
+      expect(include[1]).to.equal("20180601");
+      expect(include[2]).to.equal("1");
     });
   });
 
@@ -55,10 +54,10 @@ describe("CalendarDatesStream", () => {
 
     return awaitStream(stream, (rows: string[]) => {
       // header + 1 row only; the duplicate (service_id=1, date=20181225) must not be written twice
-      chai.expect(rows.length).to.equal(2);
+      expect(rows.length).to.equal(2);
       const [service_id, date] = splitCSV(rows[1]);
-      chai.expect(service_id).to.equal("1");
-      chai.expect(date).to.equal("20181225");
+      expect(service_id).to.equal("1");
+      expect(date).to.equal("20181225");
     });
   });
 
@@ -90,7 +89,7 @@ describe("CalendarDatesStream", () => {
     stream.end();
 
     return awaitStream(stream, (rows: string[]) => {
-      chai.expect(rows.length).to.equal(2);
+      expect(rows.length).to.equal(2);
     });
   });
 

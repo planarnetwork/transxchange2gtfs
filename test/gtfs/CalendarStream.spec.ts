@@ -1,4 +1,3 @@
-import * as chai from "chai";
 import {awaitStream, splitCSV} from "../util";
 import {LocalDate, LocalTime} from "js-joda";
 import {CalendarStream} from "../../src/gtfs/CalendarStream";
@@ -26,16 +25,16 @@ describe("CalendarStream", () => {
     return awaitStream(stream, (rows: string[]) => {
       const [service_id, monday, tuesday, wednesday, thursday, friday, saturday, sunday, start_date, end_date] = splitCSV(rows[1]);
 
-      chai.expect(service_id).to.equal("1");
-      chai.expect(monday).to.equal("1");
-      chai.expect(tuesday).to.equal("1");
-      chai.expect(wednesday).to.equal("1");
-      chai.expect(thursday).to.equal("1");
-      chai.expect(friday).to.equal("1");
-      chai.expect(saturday).to.equal("1");
-      chai.expect(sunday).to.equal("1");
-      chai.expect(start_date).to.equal("20180624");
-      chai.expect(end_date).to.equal("20991231");
+      expect(service_id).to.equal("1");
+      expect(monday).to.equal("1");
+      expect(tuesday).to.equal("1");
+      expect(wednesday).to.equal("1");
+      expect(thursday).to.equal("1");
+      expect(friday).to.equal("1");
+      expect(saturday).to.equal("1");
+      expect(sunday).to.equal("1");
+      expect(start_date).to.equal("20180624");
+      expect(end_date).to.equal("20991231");
     });
   });
 
@@ -67,7 +66,7 @@ describe("CalendarStream", () => {
     stream.end();
 
     return awaitStream(stream, (rows: string[]) => {
-      chai.expect(rows.length).to.equal(2);
+      expect(rows.length).to.equal(2);
     });
   });
 

@@ -1,4 +1,3 @@
-import * as chai from "chai";
 
 import {awaitStream} from "../util";
 import {TransXChangeStream} from "../../src/transxchange/TransXChangeStream";
@@ -14,7 +13,7 @@ describe("TransXChangeStream", () => {
     stream.end();
 
     return awaitStream(stream, ([row]: TransXChange[]) => {
-      chai.expect(row.StopPoints).to.deep.equal([
+      expect(row.StopPoints).to.deep.equal([
         {
           "CommonName": "Cabot Circus",
           "LocalityName": "Cabot Circus",
@@ -196,7 +195,7 @@ describe("TransXChangeStream", () => {
     stream.end();
 
     return awaitStream(stream, ([row]: TransXChange[]) => {
-      chai.expect(row.StopPoints).to.deep.equal([
+      expect(row.StopPoints).to.deep.equal([
         {
           "CommonName": "Queen Square Bus Station",
           "LocalityName": "",
@@ -338,7 +337,7 @@ describe("TransXChangeStream", () => {
     stream.end();
 
     return awaitStream(stream, ([row]: TransXChange[]) => {
-      chai.expect(row.Operators).to.deep.equal({
+      expect(row.Operators).to.deep.equal({
         "OId_MEGA": {
           "OperatorCode": "MEGA",
           "OperatorNameOnLicence": "Stagecoach Megabus",
@@ -356,7 +355,7 @@ describe("TransXChangeStream", () => {
     stream.end();
 
     return awaitStream(stream, ([row]: TransXChange[]) => {
-      chai.expect(row.JourneySections["JPSection-1"][0]).to.deep.equal(  {
+      expect(row.JourneySections["JPSection-1"][0]).to.deep.equal(  {
         "From": {
           "Activity": "pickUp",
           "StopPointRef": "490014051VC",
@@ -372,7 +371,7 @@ describe("TransXChangeStream", () => {
         },
         "RouteLinkRef": ""
       });
-      chai.expect(row.JourneySections["JPSection-1"][4]).to.deep.equal({
+      expect(row.JourneySections["JPSection-1"][4]).to.deep.equal({
         "From": {
           "Activity": "pickUpAndSetDown",
           "StopPointRef": "1180033077",
@@ -398,7 +397,7 @@ describe("TransXChangeStream", () => {
     stream.end();
 
     return awaitStream(stream, ([row]: TransXChange[]) => {
-      chai.expect(row.Services["M6_MEGA"]).to.deep.equal(
+      expect(row.Services["M6_MEGA"]).to.deep.equal(
         {
           "Description": "Falmouth - Victoria,London",
           "Lines": {
@@ -693,7 +692,7 @@ describe("TransXChangeStream", () => {
     stream.end();
 
     return awaitStream(stream, ([row]: TransXChange[]) => {
-      chai.expect(row.VehicleJourneys[5]).to.deep.equal({
+      expect(row.VehicleJourneys[5]).to.deep.equal({
         "DepartureTime": LocalTime.parse("13:00"),
         "JourneyPatternRef": "JP371",
         "VehicleJourneyCode": "0616",
@@ -723,7 +722,7 @@ describe("TransXChangeStream", () => {
     stream.end();
 
     return awaitStream(stream, ([row]: TransXChange[]) => {
-      chai.expect(row.VehicleJourneys[18]).to.deep.equal({
+      expect(row.VehicleJourneys[18]).to.deep.equal({
         "DepartureTime": LocalTime.parse("01:00"),
         "JourneyPatternRef": "JP384",
         "VehicleJourneyCode": "0601",
@@ -756,7 +755,7 @@ describe("TransXChangeStream", () => {
     stream.end();
 
     return awaitStream(stream, ([row]: TransXChange[]) => {
-      chai.expect(row.VehicleJourneys[0]).to.deep.equal({
+      expect(row.VehicleJourneys[0]).to.deep.equal({
         "DepartureTime": LocalTime.parse("10:00"),
         "JourneyPatternRef": undefined,
         "VehicleJourneyCode": "J78",
@@ -789,7 +788,7 @@ describe("TransXChangeStream", () => {
     stream.end();
 
     return awaitStream(stream, ([row]: TransXChange[]) => {
-      chai.expect(row.VehicleJourneys[0]).to.deep.equal({
+      expect(row.VehicleJourneys[0]).to.deep.equal({
         "DepartureTime": LocalTime.parse("05:39"),
         "JourneyPatternRef": "JP1",
         "VehicleJourneyCode": "VJ1",
@@ -819,7 +818,7 @@ describe("TransXChangeStream", () => {
     stream.end();
 
     return awaitStream(stream, ([row]: TransXChange[]) => {
-      chai.expect(row.VehicleJourneys[0].OperatingProfile).to.deep.equal({
+      expect(row.VehicleJourneys[0].OperatingProfile).to.deep.equal({
         "BankHolidayOperation": {
           "DaysOfNonOperation": ["Christmas", "NewYearsDay", "ChristmasDayHoliday", "BoxingDayHoliday", "NewYearsDayHoliday"],
           "DaysOfOperation": ["GoodFriday", "LateSummerBankHolidayNotScotland", "MayDay", "EasterMonday", "SpringBank"]
