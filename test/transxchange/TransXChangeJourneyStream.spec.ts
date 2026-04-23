@@ -1,5 +1,5 @@
 import {awaitStream} from "../util";
-import {Duration, LocalDate, LocalTime} from "js-joda";
+import {Duration, LocalDate, LocalTime} from "@js-joda/core";
 import {StopActivity} from "../../src/transxchange/TransXChange";
 import {
   BankHolidays,

@@ -21,7 +21,7 @@ import {
 } from "./TransXChange";
 import {Transform, TransformCallback} from "stream";
 import autobind from "autobind-decorator";
-import {Duration, LocalDate, LocalTime} from "js-joda";
+import {Duration, LocalDate, LocalTime} from "@js-joda/core";
 
 /**
  * Transforms JSON objects into a TransXChange objects

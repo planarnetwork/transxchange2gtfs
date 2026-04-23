@@ -1,5 +1,5 @@
 import {awaitStream, splitCSV} from "../util";
-import {LocalDate, LocalTime} from "js-joda";
+import {LocalDate, LocalTime} from "@js-joda/core";
 import {CalendarStream} from "../../src/gtfs/CalendarStream";
 
 // tslint:disable

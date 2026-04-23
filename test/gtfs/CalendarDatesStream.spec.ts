@@ -1,5 +1,5 @@
 import {awaitStream, splitCSV} from "../util";
-import {LocalDate} from "js-joda";
+import {LocalDate} from "@js-joda/core";
 import {CalendarStream} from "../../src/gtfs/CalendarStream";
 import {CalendarDatesStream} from "../../src/gtfs/CalendarDatesStream";
 

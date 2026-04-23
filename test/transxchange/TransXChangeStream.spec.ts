@@ -2,7 +2,7 @@
 import {awaitStream} from "../util";
 import {TransXChangeStream} from "../../src/transxchange/TransXChangeStream";
 import {TransXChange} from "../../src/transxchange/TransXChange";
-import {LocalDate, LocalTime, Duration} from "js-joda";
+import {LocalDate, LocalTime, Duration} from "@js-joda/core";
 
 describe("TransXChangeStream", () => {
 
