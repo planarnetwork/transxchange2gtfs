@@ -1,5 +1,21 @@
 ![transxchange2gtfs](logo.png)
 
+> [!IMPORTANT]
+> **transxchange2gtfs has moved into [planarnetwork/gb-transit](https://github.com/planarnetwork/gb-transit).**
+>
+> Development continues at
+> [`apps/transxchange2gtfs`](https://github.com/planarnetwork/gb-transit/blob/master/apps/transxchange2gtfs/README.md),
+> where it shares one GTFS schema and writer with `cif2gtfs` and `gtfsmerge` — so a bus feed and a
+> rail feed can be merged into one without reconciling their stop ids.
+>
+> The npm package is still `transxchange2gtfs` and is published from there. This repository is kept
+> for its history and issues; please open new ones against
+> [gb-transit](https://github.com/planarnetwork/gb-transit/issues).
+>
+> **If you are on 1.12.0 or earlier, upgrade.** The published CLI could not start: `bin/` required
+> `dist/src/cli.js` and the build emitted `dist/index.js`. Other things changed in the move too —
+> see [the baseline](https://github.com/planarnetwork/gb-transit/blob/master/apps/transxchange2gtfs/fixtures/BASELINE.md).
+
 [![CI](https://img.shields.io/github/actions/workflow/status/planarnetwork/transxchange2gtfs/ci.yml?branch=master&style=flat-square&label=CI)](https://github.com/planarnetwork/transxchange2gtfs/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/transxchange2gtfs.svg?style=flat-square)](https://www.npmjs.com/package/transxchange2gtfs)
 [![npm downloads](https://img.shields.io/npm/dm/transxchange2gtfs.svg?style=flat-square)](https://www.npmjs.com/package/transxchange2gtfs)
